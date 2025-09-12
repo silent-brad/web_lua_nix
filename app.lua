@@ -38,12 +38,47 @@ end)
 
 return app
 ]]
-
+--[[
 local lapis = require("lapis")
 local app = lapis.Application()
 
-app:get("/", function(self)
-	return { body = "Hello world!", status = 200 }
+app:match("/", function(self)
+	--return { body = "Hello world!", status = 200 }
+	return self:html(function()
+		h2("Welcome!")
+	end)
 end)
 
+return app
+]]
+--[[
+local lapis = require("lapis")
+local app = lapis.Application()
+
+app:enable("etlua") -- Required for HTML rendering
+
+app:get("/", function(self)
+	return {
+		body = [[
+      <!DOCTYPE HTML>
+      <html lang="en">
+      <head><title>Lapis Page</title></head>
+      <body><h1>Welcome to Lapis!</h1><p>This is a test page.</p></body>
+      </html>
+    ]]
+--[[,
+		status = 200,
+		headers = { ["Content-Type"] = "text/html" },
+	}
+end)
+
+return app
+]]
+
+--print("Loading app.lua")
+local lapis = require("lapis")
+local app = lapis.Application()
+app:get("/", function(self)
+	return "Welcome to Lapis!"
+end)
 return app
