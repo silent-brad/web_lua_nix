@@ -19,66 +19,30 @@ app:match(
 	})
 )
 ]]
---[[
+
 local lapis = require("lapis")
 local app = lapis.Application()
 
-app:enable("etlua") -- Optional, if using ETLua templates
-
-app:match("/", function(self)
-	return self:respond_to({
-		GET = function(self)
-			return "Welcome to Lapis! (GET)"
-		end,
-		POST = function(self)
-			return "Welcome to Lapis! (POST)"
-		end,
-	})
-end)
-
-return app
-]]
---[[
-local lapis = require("lapis")
-local app = lapis.Application()
-
-app:match("/", function(self)
-	--return { body = "Hello world!", status = 200 }
-	return self:html(function()
-		h2("Welcome!")
-	end)
-end)
-
-return app
-]]
---[[
-local lapis = require("lapis")
-local app = lapis.Application()
-
-app:enable("etlua") -- Required for HTML rendering
+app:enable("etlua")
+app.layout = require("views.layout")
 
 app:get("/", function(self)
-	return {
-		body = [[
-      <!DOCTYPE HTML>
-      <html lang="en">
-      <head><title>Lapis Page</title></head>
-      <body><h1>Welcome to Lapis!</h1><p>This is a test page.</p></body>
-      </html>
-    ]]
---[[,
-		status = 200,
-		headers = { ["Content-Type"] = "text/html" },
+	self.page_title = "Home"
+	self.page_subtitle = "Hello"
+	return { render = "index" }
+end)
+
+app:get("/things", function(self)
+	self.page_title = "My Favorite Things"
+	self.page_subtitle = "Here are my favorite things"
+	self.my_favorite_things = {
+		"Walking",
+		"Books",
+		"Computers",
+		"Fitness",
 	}
+
+	return { render = "things" }
 end)
 
-return app
-]]
-
---print("Loading app.lua")
-local lapis = require("lapis")
-local app = lapis.Application()
-app:get("/", function(self)
-	return "Welcome to Lapis!"
-end)
 return app
