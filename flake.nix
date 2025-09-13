@@ -21,14 +21,14 @@
             unzip
           ];
           shellHook = ''
-            export LUA=/nix/store/hdb1gz3qgcv904sbbla218dczjdrsbbm-luajit-2.1.1741730670/bin/luajit
+            export LUA=${pkgs.luajit}/bin/luajit
             export PATH=$LUA:$PATH
             export PATH=$HOME/.luarocks/bin:$PATH
 
             luarocks config variables.LUA $LUA
-            luarocks config variables.LUA_DIR /nix/store/hdb1gz3qgcv904sbbla218dczjdrsbbm-luajit-2.1.1741730670
-            luarocks config variables.LUA_INCDIR /nix/store/hdb1gz3qgcv904sbbla218dczjdrsbbm-luajit-2.1.1741730670/include/luajit-2.1
-            luarocks config variables.LUA_LIBDIR /nix/store/hdb1gz3qgcv904sbbla218dczjdrsbbm-luajit-2.1.1741730670/lib
+            luarocks config variables.LUA_DIR ${pkgs.luajit}
+            luarocks config variables.LUA_INCDIR ${pkgs.luajit}/include/luajit-2.1
+            luarocks config variables.LUA_LIBDIR ${pkgs.luajit}/lib
             luarocks config lua_version 5.1
 
             export SQLITE_DIR=${pkgs.sqlite}
@@ -49,8 +49,8 @@
             luarocks config variables.OPENSSL_INCDIR ${pkgs.openssl.dev}/include
             luarocks config variables.OPENSSL_LIBDIR ${pkgs.openssl.out}/lib
 
-            export LUA_PATH="./?.lua;$HOME/.luarocks/share/lua/5.1/?.lua;$HOME/.luarocks/share/lua/5.1/?/init.lua;/nix/store/hdb1gz3qgcv904sbbla218dczjdrsbbm-luajit-2.1.1741730670/share/lua/5.1/?.lua;/nix/store/a4z1w1vxyv040gzfzjdflnjkljlhb2ll-openresty-1.27.1.2/luajit/share/lua/5.1/?.lua;"
-            export LUA_CPATH="./?.so;$HOME/.luarocks/lib/lua/5.1/?.so;/nix/store/hdb1gz3qgcv904sbbla218dczjdrsbbm-luajit-2.1.1741730670/lib/lua/5.1/?.so;/nix/store/a4z1w1vxyv040gzfzjdflnjkljlhb2ll-openresty-1.27.1.2/luajit/lib/lua/5.1/?.so;"
+            export LUA_PATH="./?.lua;$HOME/.luarocks/share/lua/5.1/?.lua;$HOME/.luarocks/share/lua/5.1/?/init.lua;${pkgs.luajit}/share/lua/5.1/?.lua;${pkgs.openresty}/luajit/share/lua/5.1/?.lua;"
+            export LUA_CPATH="./?.so;$HOME/.luarocks/lib/lua/5.1/?.so;${pkgs.luajit}/lib/lua/5.1/?.so;${pkgs.openresty}/luajit/lib/lua/5.1/?.so;"
 
             export PKG_CONFIG_PATH=${pkgs.openssl.dev}/lib/pkgconfig:${pkgs.sqlite.dev}/lib/pkgconfig:$PKG_CONFIG_PATH
 
